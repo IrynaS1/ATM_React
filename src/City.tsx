@@ -6,8 +6,8 @@ type CityPropsType = {
   data: MoneyType[];
 };
 
-export const City = ({data}: CityPropsType) => {
-  const mappedMoney = data.map((el: MoneyType, index) => (
+export const City = ({ data }: CityPropsType) => {
+  const mappedMoney = data.map((el: MoneyType) => (
     <CurrentBankomat key={el.id} money={el} />
   ));
 

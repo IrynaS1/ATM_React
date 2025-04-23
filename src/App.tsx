@@ -46,7 +46,7 @@ export const App = () => {
   const removeMoney = (key: BanknotsType) => {
     const indexOfMoney = money.findIndex((el) => el.banknote === key);
     if (indexOfMoney !== -1) {
-      setMoney(money.filter((el, index) => index !== indexOfMoney));
+      setMoney(money.filter((_el, index) => index !== indexOfMoney));
     }
   };
 

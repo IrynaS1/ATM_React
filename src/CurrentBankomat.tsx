@@ -37,7 +37,7 @@ type PropsColor = {
   color: string;
 };
 
-const BanknoteGreen = styled.div`
+/* const BanknoteGreen = styled.div`
   background-color: aquamarine;
   width: 200px;
   height: 100px;
@@ -49,7 +49,7 @@ const BanknoteBlue = styled.div`
   width: 200px;
   height: 100px;
   margin: 10px;
-`;
+`; */
 
 const Banknote = styled.div<PropsColor>`
   background-color: ${(props) => props.color};
