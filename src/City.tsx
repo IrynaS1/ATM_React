@@ -1,27 +1,17 @@
-import {CurrentBankomat} from "./CurrentBankomat";
-import {MoneyType} from "./App";
+import { CurrentBankomat } from "./CurrentBankomat";
+import { MoneyType } from "./App";
 import styled from "styled-components";
 
 type CityPropsType = {
-    data: any //встречаем денюжки
-}
+  data: MoneyType[];
+};
 
-export const City = () => {
-// с деструктуризацией пожалуйста
+export const City = ({data}: CityPropsType) => {
+  const mappedMoney = data.map((el: MoneyType, index) => (
+    <CurrentBankomat key={el.id} money={el} />
+  ));
 
-
-    // const mappedMoney = props.data.map((el: MoneyType, index) => (
-    //     <CurrentBankomat
-    //         key={el.id}
-    //         money={el}
-    //     />
-    // ))
-
-    return (
-        <Wrapper>
-         Одна банконота-одна компонента
-        </Wrapper>
-    );
+  return <Wrapper>{mappedMoney}</Wrapper>;
 };
 
 const Wrapper = styled.div`
@@ -29,4 +19,4 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-`
+`;

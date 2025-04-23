@@ -3,11 +3,11 @@ import "./App.css";
 import { Country } from "./Country";
 import { v1 } from "uuid";
 
-export type BanknotsType = "DOLLARS" | "RUBLS" | "All"; // создадим типы для banknotes -он может быть 'DOLLARS', 'RUBLS' или 'All'
+export type BanknotsType = "USD" | "RUB" | "All";
 export type MoneyType = {
   banknote: BanknotsType;
-  nominal: number; // не ленимся, убираем заглушку, и пишем правильный тип)
-  id: string; // ложку за Димыча, за...
+  nominal: number;
+  id: string;
 };
 
 let defaultMoney: Array<MoneyType> = [
@@ -22,39 +22,41 @@ let defaultMoney: Array<MoneyType> = [
   { banknote: "RUB", nominal: 100, id: v1() },
 ];
 
-export const moneyFilter = (money: any, filter: any): any => {
-  //если пришел filter со значением 'All', то возвращаем все банкноты
-	//return money.filter... ну да, придется фильтровать
-	
-	
+export const moneyFilter = (
+  money: Array<MoneyType>,
+  filter: BanknotsType
+): Array<MoneyType> => {
+  if (filter === "All") return money;
+  return money.filter((el) => el.banknote === filter);
 };
 
 export const App = () => {
-  // убираем заглушки в типизации и вставляем в качестве инициализационного значения defaultMoney
   const [money, setMoney] = useState<Array<MoneyType>>(defaultMoney);
-  const [filterValue, setFilterValue] = useState<any>("All"); // по умолчанию указываем все банкноты
+  const [filterValue, setFilterValue] = useState<BanknotsType>("All");
 
-  // а вот сейчас притормаживаем. И вдумчиво: константа filteredMoney получает результат функции moneyFilter
-  // в функцию передаем деньги и фильтр, по которому ихбудем выдавать(ретёрнуть)
   const filteredMoney = moneyFilter(money, filterValue);
 
   const addMoney = (banknote: BanknotsType) => {
-    // Добавление денег сделаем в последнюю очередь, после настройки фильтров и отрисовки денег
+    console.log("banknote", banknote);
+
+    const newBanknote = { banknote: banknote, nominal: 100, id: v1() };
+    setMoney([...money, newBanknote]);
   };
 
-  const removeMoney = (banknote: BanknotsType) => {
-    // Снятие денег сделаем в последнюю очередь, после настройки фильтров и отрисовки денег
-    // const index = money.findIndex
-    //  if (index !== -1) {
-    //      setMoney(money.filter((el, i) => ...));
-    //  }
+  const removeMoney = (key: BanknotsType) => {
+    const indexOfMoney = money.findIndex((el) => el.banknote === key);
+    if (indexOfMoney !== -1) {
+      setMoney(money.filter((el, index) => index !== indexOfMoney));
+    }
   };
 
   return (
     <div className="App">
       <Country
-        data={filteredMoney} //отрисовать будем деньги после фильтрации
-        setFilterValue={setFilterValue} //useState передаем? Так можно было?!
+        data={filteredMoney}
+        setFilterValue={setFilterValue}
+        addMoney={addMoney}
+        removeMoney={removeMoney}
       />
     </div>
   );
